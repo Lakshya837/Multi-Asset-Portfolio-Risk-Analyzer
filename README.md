@@ -76,9 +76,7 @@ To examine the effect of trading costs on portfolio performance, the backtest is
 - 25 basis points
 - 50 basis points
 
-The sensitivity analysis compares how portfolio CAGR and Sharpe Ratio change as assumed transaction costs increase.
-
-These costs are model assumptions rather than live brokerage quotes.
+The sensitivity analysis compares how portfolio CAGR and Sharpe Ratio change as assumed transaction costs increase. These costs are model assumptions rather than live brokerage quotes.
 
 ## Key Out-of-Sample Results
 
@@ -130,48 +128,60 @@ The results show declining CAGR and Sharpe Ratio as assumed transaction costs in
 
 ## Visualizations
 
-The project generates visualizations to help interpret portfolio structure, diversification, and historical performance.
+### 1. Equity Correlation Heatmap
 
-### Correlation Heatmap
+Shows correlations among the 15 selected NSE equities to help assess diversification.
 
-Shows correlations between the selected equities and helps identify potential diversification relationships.
+![Equity Correlation Heatmap](screenshots/equity_correlation_heatmap.png)
 
-![Correlation Heatmap](screenshots/correlation_heatmap.png)
+### 2. Efficient Frontier
 
-### Efficient Frontier
-
-Displays the risk-return characteristics of the simulated portfolios, including the selected Maximum Sharpe and Minimum Variance portfolios.
+Displays the risk-return characteristics of the 5,000 simulated portfolios.
 
 ![Efficient Frontier](screenshots/efficient_frontier.png)
 
-### Maximum Sharpe Portfolio Allocation
+### 3. Maximum Sharpe Portfolio Allocation
 
-Visualizes the asset weights selected for the Maximum Sharpe Portfolio.
+Shows the asset allocation selected to maximize the estimated Sharpe Ratio.
 
-![Maximum Sharpe Portfolio Allocation](screenshots/max_sharpe_allocation.png)
+![Maximum Sharpe Portfolio Allocation](screenshots/maximum_sharpe_allocation.png)
 
-### Minimum Variance Portfolio Allocation
+### 4. Minimum Variance Portfolio Allocation
 
-Visualizes the asset weights selected for the Minimum Variance Portfolio.
+Shows the asset allocation selected to minimize estimated portfolio volatility.
 
-![Minimum Variance Portfolio Allocation](screenshots/min_variance_allocation.png)
+![Minimum Variance Portfolio Allocation](screenshots/minimum_variance_allocation.png)
 
-### Rolling Out-of-Sample Backtest
+### 5. Rolling Out-of-Sample Portfolio Growth
 
-Compares cumulative portfolio performance over the out-of-sample evaluation period.
+Compares the out-of-sample growth of the Equal Weight, Maximum Sharpe, and Minimum Variance portfolios against the Nifty 50 price-index benchmark.
 
-![Portfolio Backtest](screenshots/portfolio_backtest.png)
+![Rolling Out-of-Sample Portfolio Growth](screenshots/rolling_oos_growth.png)
 
-### Transaction-Cost Sensitivity
+### 6. Rolling Out-of-Sample Drawdowns
 
-The sensitivity analysis generates additional charts and a CSV summary under the `outputs/` directory. Include the generated sensitivity charts in `screenshots/` if you want to embed them in this section.
+Shows the peak-to-trough declines of the portfolios during the out-of-sample evaluation period.
+
+![Rolling Out-of-Sample Drawdowns](screenshots/rolling_oos_drawdowns.png)
+
+### 7. Transaction-Cost Sensitivity — CAGR
+
+Shows how the Maximum Sharpe Portfolio's CAGR changes under different transaction-cost assumptions.
+
+![Transaction-Cost Sensitivity CAGR](screenshots/transaction_cost_sensitivity_cagr.png)
+
+### 8. Transaction-Cost Sensitivity — Sharpe Ratio
+
+Shows how the Maximum Sharpe Portfolio's Sharpe Ratio changes under different transaction-cost assumptions.
+
+![Transaction-Cost Sensitivity Sharpe Ratio](screenshots/transaction_cost_sensitivity_sharpe.png)
 
 ## Dataset
 
-**Source:** Yahoo Finance via `yfinance`  
-**Frequency:** Daily  
-**Price history:** 18 October 2021 – 16 October 2026  
-**Assets:** 15 NSE-listed equities plus the Nifty 50 price-index benchmark
+- **Source:** Yahoo Finance via `yfinance`
+- **Frequency:** Daily
+- **Price history:** 18 October 2021 – 16 October 2026
+- **Assets:** 15 NSE-listed equities plus the Nifty 50 price-index benchmark
 
 ### Asset Universe
 
@@ -233,11 +243,19 @@ Multi-Asset-Portfolio-Risk-Analyzer/
 ├── screenshots/
 │   ├── correlation_heatmap.png
 │   ├── efficient_frontier.png
-│   ├── max_sharpe_allocation.png
-│   ├── min_variance_allocation.png
-│   └── portfolio_backtest.png
+│   ├── maximum_sharpe_allocation.png
+│   ├── minimum_variance_allocation.png
+│   ├── portfolio_backtest.png
+│   ├── equity_correlation_heatmap.png
+│   ├── rolling_oos_growth.png
+│   ├── rolling_oos_drawdowns.png
+│   ├── transaction_cost_sensitivity_cagr.png
+│   └── transaction_cost_sensitivity_sharpe.png
 └── outputs/
-    ├── rolling_backtest_summary.csv
+    ├── rolling_oos_performance_summary.csv
+    ├── rolling_oos_daily_returns.csv
+    ├── rolling_oos_growth_of_1.csv
+    ├── rolling_oos_drawdowns.png
     ├── transaction_cost_sensitivity.csv
     └── other generated outputs
 ```
@@ -289,9 +307,7 @@ Run the sensitivity-enabled implementation:
 python main_upgraded_with_sensitivity.py
 ```
 
-The script downloads historical data, performs portfolio simulation and rolling backtesting, calculates performance metrics, and generates output files and visualizations.
-
-The actual entry point and output filenames should match the version committed to the repository.
+The script downloads historical data, performs portfolio simulation and rolling backtesting, calculates performance metrics, and generates output files and visualizations. Ensure the entry point and output filenames match the version committed to the repository.
 
 ## Limitations
 
