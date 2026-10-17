@@ -1,283 +1,323 @@
 # Multi-Asset Portfolio Risk Analyzer
 
-### Project Duration
+A quantitative finance project built in Python to analyze portfolio risk, diversification, asset allocation, and risk-adjusted performance across 15 NSE-listed equities. The project applies **Modern Portfolio Theory (MPT), Monte Carlo simulation, and rolling out-of-sample backtesting** to compare portfolio construction strategies under different transaction-cost assumptions.
 
-**June 2026**
+## Project Overview
 
-### Market Data Period
-
-**19 June 2023 – 17 June 2026**
-
-A quantitative finance and portfolio optimization project built in Python that analyzes risk, return, diversification, and portfolio construction across 15 NSE-listed equities using Modern Portfolio Theory (MPT), Monte Carlo simulation, and historical backtesting.
-
-This project evaluates individual stocks and optimized portfolios using industry-standard risk metrics including Sharpe Ratio, Sortino Ratio, Value at Risk (VaR), and Maximum Drawdown.
-
----
+- **Project:** Multi-Asset Portfolio Risk Analyzer
+- **Market Data Period:** 18 October 2021 – 16 October 2026
+- **Data Source:** Yahoo Finance via `yfinance`
+- **Asset Universe:** 15 NSE-listed equities
+- **Optimization Method:** Monte Carlo simulation
+- **Number of Simulated Portfolios:** 5,000
+- **Backtesting Approach:** Rolling out-of-sample evaluation
+- **Baseline Transaction Cost:** 10 basis points
+- **Primary Language:** Python
 
 ## Project Highlights
 
-* Analyzed **15 NSE-listed large-cap stocks** across Banking, IT, Energy, FMCG, Healthcare, Telecom, Automobile, and Consumer sectors.
-* Processed **3 years of historical market data**.
-* Calculated **740+ daily return observations** per asset.
-* Evaluated portfolio risk and performance using **6 quantitative risk metrics**.
-* Generated and analyzed **5,000 random portfolios** using Monte Carlo Simulation.
-* Constructed:
+- Collected and processed historical daily price data for 15 NSE-listed equities.
+- Calculated annualized returns, volatility, Sharpe Ratio, Sortino Ratio, historical Value at Risk (VaR), and Maximum Drawdown.
+- Simulated 5,000 long-only portfolio allocations using Monte Carlo methods.
+- Constructed Equal Weight, Maximum Sharpe, and Minimum Variance portfolios.
+- Visualized the Efficient Frontier and asset correlation structure.
+- Evaluated portfolio strategies using rolling out-of-sample backtesting.
+- Incorporated transaction costs into portfolio performance calculations.
+- Conducted transaction-cost sensitivity analysis at 5, 10, 25, and 50 basis points.
+- Compared portfolio strategies against the Nifty 50 price-index benchmark.
 
-  * Equal Weight Portfolio
-  * Maximum Sharpe Portfolio
-  * Minimum Variance Portfolio
-* Built a complete **Efficient Frontier** visualization.
-* Performed portfolio backtesting and cumulative performance analysis.
-* Visualized portfolio allocations and diversification characteristics.
+## Methodology
 
----
+### 1. Market Data Collection
 
-## Key Results
+Historical market data is retrieved from Yahoo Finance using `yfinance`. The analysis covers 15 selected NSE-listed equities across banking, information technology, energy, FMCG, healthcare, telecommunications, automobiles, and consumer-related sectors.
 
-### Equal Weight Portfolio
+Adjusted price data is used through `yfinance` with `auto_adjust=True`.
 
-| Metric            | Value  |
-| ----------------- | ------ |
-| Annual Return     | 9.36%  |
-| Annual Volatility | 11.74% |
-| Sharpe Ratio      | 0.29   |
+### 2. Return and Risk Calculation
 
-### Maximum Sharpe Portfolio
+Daily returns are calculated from historical prices. The project uses these returns to estimate portfolio performance and risk.
 
-| Metric            | Value  |
-| ----------------- | ------ |
-| Annual Return     | 15.36% |
-| Annual Volatility | 12.47% |
-| Sharpe Ratio      | 0.75   |
+The annualization convention is based on **252 trading days per year**, with an assumed annual risk-free rate of **6%**.
 
-### Minimum Variance Portfolio
+### 3. Monte Carlo Portfolio Simulation
 
-| Metric            | Value  |
-| ----------------- | ------ |
-| Annual Return     | 10.09% |
-| Annual Volatility | 11.08% |
-| Sharpe Ratio      | 0.37   |
+The project generates 5,000 random long-only portfolio allocations using randomly sampled portfolio weights.
 
-### Portfolio Backtest Performance
+For each simulated portfolio, the model calculates annualized return, annualized volatility, and Sharpe Ratio. The resulting portfolio statistics are used to construct the Efficient Frontier and select portfolio allocations.
 
-Growth of ₹1 invested over the analysis period:
+Three strategies are evaluated:
 
-| Portfolio                  | Final Value |
-| -------------------------- | ----------- |
-| Equal Weight Portfolio     | ₹1.29       |
-| Minimum Variance Portfolio | ₹1.32       |
-| Maximum Sharpe Portfolio   | ₹1.53       |
+- **Equal Weight Portfolio:** Allocates equal capital weights across the selected assets.
+- **Maximum Sharpe Portfolio:** Selects the simulated portfolio with the highest estimated Sharpe Ratio.
+- **Minimum Variance Portfolio:** Selects the simulated portfolio with the lowest estimated volatility.
 
-Total Return Generated:
+### 4. Rolling Out-of-Sample Backtesting
 
-| Portfolio                  | Return |
-| -------------------------- | ------ |
-| Equal Weight Portfolio     | 29.01% |
-| Minimum Variance Portfolio | 32.10% |
-| Maximum Sharpe Portfolio   | 53.49% |
+The backtest evaluates portfolio strategies over sequential test periods rather than relying only on performance measured over the full historical dataset.
 
-### Performance Insight
+The main configuration uses:
 
-The Maximum Sharpe Portfolio generated the highest risk-adjusted return and outperformed both the Equal Weight Portfolio and the Minimum Variance Portfolio over the three-year backtesting period.
+- Training window: 252 daily return observations
+- Rebalancing interval: 21 daily return observations
+- Transaction-cost assumption: 10 basis points
+- Benchmark: Nifty 50 price index
 
----
+Portfolio weights are estimated using the training window and evaluated on subsequent out-of-sample observations. Portfolio holdings drift with asset returns between rebalancing dates.
 
-## Project Outcomes
+The backtest records daily portfolio returns and calculates cumulative performance and risk metrics.
 
-* Evaluated 15 NSE equities using quantitative risk measures.
-* Simulated 5,000 portfolios using Monte Carlo optimization.
-* Identified optimal asset allocations using Modern Portfolio Theory.
-* Achieved a backtested portfolio return of **53.49%** with the Maximum Sharpe Portfolio.
-* Demonstrated the impact of diversification and risk-adjusted portfolio construction.
-* Compared portfolio performance using historical backtesting.
+### 5. Transaction-Cost Sensitivity Analysis
 
----
+To examine the effect of trading costs on portfolio performance, the backtest is repeated using four transaction-cost assumptions:
+
+- 5 basis points
+- 10 basis points
+- 25 basis points
+- 50 basis points
+
+The sensitivity analysis compares how portfolio CAGR and Sharpe Ratio change as assumed transaction costs increase.
+
+These costs are model assumptions rather than live brokerage quotes.
+
+## Key Out-of-Sample Results
+
+The following results correspond to the latest baseline run using a 10-basis-point transaction-cost assumption.
+
+| Strategy | Total Return | CAGR | Annualized Volatility | Sharpe Ratio | Sortino Ratio | Maximum Drawdown |
+|---|---:|---:|---:|---:|---:|---:|
+| Equal Weight | 33.38% | 7.67% | 11.34% | 0.195 | 0.278 | -19.96% |
+| Maximum Sharpe | 43.45% | 9.70% | 13.79% | 0.318 | 0.447 | -26.68% |
+| Minimum Variance | 38.34% | 8.68% | 10.70% | 0.287 | 0.412 | -21.45% |
+| Nifty 50 Price Index | 31.54% | 7.29% | 12.60% | 0.159 | 0.222 | -15.77% |
+
+**Evaluation period:** 24 October 2022 – 16 October 2026  
+**Out-of-sample observations:** 982 daily observations
+
+### Performance Interpretation
+
+- The Maximum Sharpe Portfolio recorded the highest total return and CAGR among the three portfolio strategies in this backtest.
+- The Minimum Variance Portfolio had the lowest annualized volatility among the three portfolio strategies.
+- The Maximum Sharpe Portfolio also experienced the largest maximum drawdown among the three portfolio strategies.
+- The Nifty 50 price-index benchmark had a lower total return than the three strategies but recorded the smallest maximum drawdown.
+
+These results are historical and do not guarantee future performance. Results depend on the selected asset universe, estimation windows, optimization method, and transaction-cost assumptions.
+
+## Transaction-Cost Sensitivity
+
+The following table presents the Maximum Sharpe Portfolio's results under different transaction-cost assumptions.
+
+| Transaction Cost | CAGR | Sharpe Ratio |
+|---|---:|---:|
+| 5 bps | 9.89% | 0.331 |
+| 10 bps | 9.70% | 0.318 |
+| 25 bps | 9.13% | 0.280 |
+| 50 bps | 8.17% | 0.216 |
+
+The results show declining CAGR and Sharpe Ratio as assumed transaction costs increase. This analysis illustrates why trading costs matter when evaluating strategies that periodically rebalance portfolio allocations.
 
 ## Risk Metrics Implemented
 
-### Annualized Return
-
-Measures expected yearly return based on average daily returns.
-
-### Annualized Volatility
-
-Measures annualized risk using the standard deviation of daily returns.
-
-### Sharpe Ratio
-
-Measures excess return earned per unit of total risk.
-
-### Sortino Ratio
-
-Measures excess return earned per unit of downside risk.
-
-### Value at Risk (VaR 95%)
-
-Estimates the worst expected daily loss at a 95% confidence level.
-
-### Maximum Drawdown
-
-Measures the largest peak-to-trough decline experienced during the analysis period.
-
----
-
-## Portfolio Optimization Methodology
-
-The project uses Monte Carlo Simulation to generate **5,000 random portfolio allocations**.
-
-For each portfolio:
-
-1. Portfolio weights are randomly generated.
-2. Annualized return is calculated.
-3. Annualized volatility is calculated.
-4. Sharpe Ratio is computed.
-5. Portfolio statistics are stored for comparison.
-
-The simulation identifies:
-
-### Maximum Sharpe Portfolio
-
-Portfolio with the highest risk-adjusted return.
-
-### Minimum Variance Portfolio
-
-Portfolio with the lowest overall portfolio volatility.
-
----
+| Metric | Purpose |
+|---|---|
+| Annualized Arithmetic Return | Annualizes the average daily return using the 252-trading-day convention. |
+| CAGR | Measures the annualized compound growth rate over the evaluation period. |
+| Annualized Volatility | Measures the standard deviation of daily returns, annualized using the square root of 252. |
+| Sharpe Ratio | Measures excess return relative to total volatility using the assumed risk-free rate. |
+| Sortino Ratio | Measures excess return relative to downside deviation. |
+| Historical VaR (95%) | Estimates a daily loss threshold from the historical return distribution at the 95% confidence level. |
+| Maximum Drawdown | Measures the largest peak-to-trough decline in portfolio value. |
 
 ## Visualizations
 
+The project generates visualizations to help interpret portfolio structure, diversification, and historical performance.
+
 ### Correlation Heatmap
 
-Analyzes relationships among assets and identifies diversification opportunities.
+Shows correlations between the selected equities and helps identify potential diversification relationships.
+
+![Correlation Heatmap](screenshots/correlation_heatmap.png)
 
 ### Efficient Frontier
 
-Displays the risk-return characteristics of 5,000 simulated portfolios.
+Displays the risk-return characteristics of the simulated portfolios, including the selected Maximum Sharpe and Minimum Variance portfolios.
 
-### Portfolio Allocation Charts
+![Efficient Frontier](screenshots/efficient_frontier.png)
 
-Pie chart visualization of:
+### Maximum Sharpe Portfolio Allocation
 
-* Maximum Sharpe Portfolio Allocation
-* Minimum Variance Portfolio Allocation
+Visualizes the asset weights selected for the Maximum Sharpe Portfolio.
 
-### Portfolio Backtesting Performance
+![Maximum Sharpe Portfolio Allocation](screenshots/max_sharpe_allocation.png)
 
-Comparison of cumulative growth for:
+### Minimum Variance Portfolio Allocation
 
-* Equal Weight Portfolio
-* Minimum Variance Portfolio
-* Maximum Sharpe Portfolio
+Visualizes the asset weights selected for the Minimum Variance Portfolio.
 
----
+![Minimum Variance Portfolio Allocation](screenshots/min_variance_allocation.png)
+
+### Rolling Out-of-Sample Backtest
+
+Compares cumulative portfolio performance over the out-of-sample evaluation period.
+
+![Portfolio Backtest](screenshots/portfolio_backtest.png)
+
+### Transaction-Cost Sensitivity
+
+The sensitivity analysis generates additional charts and a CSV summary under the `outputs/` directory. Include the generated sensitivity charts in `screenshots/` if you want to embed them in this section.
 
 ## Dataset
 
-### Source
-
-Yahoo Finance (via yFinance API)
-
-### Market Data Period
-
-19 June 2023 – 17 June 2026
-
-### Data Frequency
-
-Daily
-
-### Number of Assets
-
-15 NSE-listed large-cap stocks
-
-### Observations
-
-* 741 Trading Days
-* 740 Daily Return Observations
+**Source:** Yahoo Finance via `yfinance`  
+**Frequency:** Daily  
+**Price history:** 18 October 2021 – 16 October 2026  
+**Assets:** 15 NSE-listed equities plus the Nifty 50 price-index benchmark
 
 ### Asset Universe
 
-* Reliance Industries
-* Tata Consultancy Services (TCS)
-* Infosys
-* HDFC Bank
-* ICICI Bank
-* State Bank of India (SBI)
-* ITC
-* Hindustan Unilever
-* Sun Pharmaceutical Industries
-* Dr. Reddy's Laboratories
-* Asian Paints
-* Maruti Suzuki
-* Bharti Airtel
-* ONGC
-* Wipro
+1. Reliance Industries
+2. Tata Consultancy Services
+3. Infosys
+4. HDFC Bank
+5. ICICI Bank
+6. State Bank of India
+7. ITC
+8. Hindustan Unilever
+9. Sun Pharmaceutical Industries
+10. Dr. Reddy's Laboratories
+11. Asian Paints
+12. Maruti Suzuki
+13. Bharti Airtel
+14. ONGC
+15. Wipro
 
----
+The asset universe is fixed for this analysis. The results may therefore be affected by selection bias and survivorship bias. The Nifty 50 benchmark used here is a price index rather than a total-return index.
 
 ## Technology Stack
 
-* Python
-* Pandas
-* NumPy
-* Matplotlib
-* Seaborn
-* yFinance
-
----
+- **Python** — Core implementation
+- **Pandas** — Data manipulation and time-series analysis
+- **NumPy** — Numerical calculations and portfolio simulation
+- **Matplotlib** — Charts and performance visualizations
+- **Seaborn** — Correlation heatmap
+- **yfinance** — Historical market data retrieval
+- **SciPy** — Scientific computing
 
 ## Concepts Demonstrated
 
-* Modern Portfolio Theory (MPT)
-* Portfolio Optimization
-* Monte Carlo Simulation
-* Quantitative Risk Analysis
-* Risk-Adjusted Performance Measurement
-* Diversification Analysis
-* Efficient Frontier Construction
-* Historical Portfolio Backtesting
-* Financial Data Analysis
-* Portfolio Allocation Optimization
-
----
+- Modern Portfolio Theory
+- Monte Carlo Simulation
+- Portfolio Optimization
+- Efficient Frontier Construction
+- Quantitative Risk Analysis
+- Risk-Adjusted Performance Measurement
+- Diversification Analysis
+- Rolling Out-of-Sample Backtesting
+- Transaction-Cost Modeling
+- Sensitivity Analysis
+- Financial Data Analysis
 
 ## Repository Structure
 
+The following illustrates the intended repository organization. Keep it synchronized with the files actually committed to GitHub.
+
 ```text
-Multi_Asset_Portfolio_Risk_Analyser/
-│
+Multi-Asset-Portfolio-Risk-Analyzer/
+├── main_upgraded_with_sensitivity.py
+├── main_upgraded.py
 ├── main.py
-├── README.md
+├── methodology_notes.md
 ├── requirements.txt
+├── README.md
+├── .gitignore
 ├── screenshots/
 │   ├── correlation_heatmap.png
 │   ├── efficient_frontier.png
 │   ├── max_sharpe_allocation.png
 │   ├── min_variance_allocation.png
 │   └── portfolio_backtest.png
-│
-└── .gitignore
+└── outputs/
+    ├── rolling_backtest_summary.csv
+    ├── transaction_cost_sensitivity.csv
+    └── other generated outputs
 ```
 
----
+Generated filenames may vary according to the implementation. The virtual environment directory (`venv/`) should remain local and should not be committed.
+
+## Installation and Usage
+
+### Prerequisites
+
+- Python 3.10 or later recommended
+- Git
+- Internet connection for downloading historical market data
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/Lakshya837/Multi-Asset-Portfolio-Risk-Analyzer.git
+cd Multi-Asset-Portfolio-Risk-Analyzer
+```
+
+### 2. Create and activate a virtual environment
+
+**macOS / Linux**
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+**Windows**
+
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
+
+### 3. Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Run the analysis
+
+Run the sensitivity-enabled implementation:
+
+```bash
+python main_upgraded_with_sensitivity.py
+```
+
+The script downloads historical data, performs portfolio simulation and rolling backtesting, calculates performance metrics, and generates output files and visualizations.
+
+The actual entry point and output filenames should match the version committed to the repository.
+
+## Limitations
+
+- **Fixed asset universe:** The selected 15 equities may introduce selection and survivorship bias.
+- **Benchmark limitation:** The Nifty 50 price index does not include dividends in the way a total-return index does.
+- **Parameter estimation:** Expected returns and covariance estimates can be unstable and sensitive to the training window.
+- **Simulation limitation:** Monte Carlo optimization evaluates randomly generated allocations and does not guarantee a globally optimal portfolio.
+- **Transaction costs:** The model uses simplified basis-point assumptions rather than instrument-specific brokerage, taxes, slippage, or market impact.
+- **Risk-free rate:** A fixed annual risk-free rate of 6% is assumed.
+- **Historical performance:** Backtested results are not a guarantee of future returns.
+- **Data availability:** Results depend on the quality and availability of historical data retrieved from Yahoo Finance.
 
 ## Future Improvements
 
-* Black-Litterman Portfolio Optimization
-* Conditional Value at Risk (CVaR)
-* Rolling Window Backtesting
-* Portfolio Rebalancing Strategies
-* Factor-Based Investing Models
-* Interactive Dashboard using Streamlit
-* Live Market Data Integration
-
----
+- Compare against a Nifty 50 total-return benchmark.
+- Test alternative rolling-window lengths and rebalancing frequencies.
+- Incorporate more realistic brokerage, taxes, slippage, and market-impact assumptions.
+- Add Conditional Value at Risk (CVaR).
+- Evaluate factor-based portfolio strategies.
+- Investigate Black-Litterman portfolio optimization.
+- Develop an interactive dashboard using Streamlit.
 
 ## Author
 
-**Lakshya Kumar**
-
-B.Tech, VLSI Design and Technology
+**Lakshya Kumar**  
+B.Tech, VLSI Design and Technology  
 National Institute of Technology Delhi
 
-
+GitHub: [Lakshya837](https://github.com/Lakshya837)

@@ -1,0 +1,15 @@
+,value
+stocks,"RELIANCE.NS, TCS.NS, INFY.NS, HDFCBANK.NS, ICICIBANK.NS, SBIN.NS, ITC.NS, HINDUNILVR.NS, SUNPHARMA.NS, DRREDDY.NS, ASIANPAINT.NS, MARUTI.NS, BHARTIARTL.NS, ONGC.NS, WIPRO.NS"
+benchmark,^NSEI
+benchmark_definition,Nifty 50 price index; not total return index (TRI)
+download_period,5y
+training_days,252
+test_days,21
+rebalancing,Every 21 trading observations; weights fixed during each test block
+num_portfolios_per_window,5000
+risk_free_rate_annual,0.06
+annualization_days,252
+transaction_cost_bps,10
+random_seed,42
+missing_data_policy,Drop dates with any missing value across all selected equities and benchmark; no forward fill
+weight_constraints,Long-only; weights >= 0; weights sum to 1; no leverage
